@@ -1,0 +1,205 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+/* login page style........... */
+.login-container {
+    width: 80%;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #E6DCE6;
+    gap: 50px;
+
+}
+
+#login-password {
+    width: 100%;
+}
+
+#login-email {
+    width: 100%;
+}
+
+.create-account-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0084FF;
+}
+
+.create-account-link a {
+    color: #0084FF;
+}
+
+/* signup page style........... */
+.container {
+    width: 80%;
+    background-color: #E6DCE6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+#profile-upload-btn {
+    width: 130px;
+    height: 30px;
+    border: 2px solid #83BDFF;
+    border-radius: 6px;
+    color: #0084FF;
+    margin-top: 8px;
+    background-color: white;
+
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    width: 60%;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+#profile {
+    width: 100px;
+    height: 100px;
+    background-color: #DCE1EB;
+    border-radius: 50%;
+}
+
+i {
+    position: relative;
+    top: 10px;
+    left: 5px;
+    font-size: 70px;
+    color: #9BA0AA;
+    border-radius: 50%;
+
+}
+
+form input {
+    height: 40px;
+    border: none;
+    border-radius: 6px;
+    background-color: #F5F5FA;
+    border: 1px solid #BECBE8;
+}
+
+.password-section {
+    display: flex;
+    /* flex-wrap: wrap; */
+    gap: 30px;
+}
+
+.password-section input {
+    width: 300px;
+    margin-top: 15px;
+}
+.password-section p{
+    color: #9BA0AA;
+    margin-top: 8px;
+}
+
+button {
+    height: 50px;
+    border: none;
+    border-radius: 6px;
+    background-color: #0084FF;
+    color: white;
+    margin-top: 15px;
+}
+
+button a {
+    color: white;
+    text-decoration: none;
+}
+
+.career-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.career-section p {
+    margin-bottom: 15px;
+}
+
+.career-section a {
+    text-decoration: none;
+    color: #0084FF;
+}
+
+.locality {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+
+.locality div {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+}
+.locality input{
+    padding: 10px;
+}
+.address {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.address input {
+    width: 100%;
+     padding: 10px;
+}
+/* Employee Profile page css ..........*/
+
+.location{
+    display: flex;
+    gap: 30px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 20px;
+}
+.location div{
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    width: 250px;
+    gap: 4px;
+    
+   
+}
+.location div div
+{
+ background-color: #F5F5FA;
+  border-radius: 4px;
+}
+.location p{
+    margin-bottom: 12px;
+}

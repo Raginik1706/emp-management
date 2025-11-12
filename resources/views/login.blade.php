@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoginPage</title>
+    <link rel="stylesheet" href="{{asset('style.css')}}">
+</head>
+
+<body>
+
+    <div class=" login-container ">
+        <h2>Employee Login</h2>
+        <form action="/empLogin" method="POST">
+            
+            @csrf
+            <label for="">Email Address</label>
+            <input type="email" name="email" id="login-email">
+
+            <div>
+                <label for="">Password</label>
+                <br>
+                <br>
+                <input type="password" name="password" id="login-password">
+            </div>
+
+
+            <button type="submit">Login</button>
+            <div class="create-account-link">
+                <span>Don't have account?</span><a href="/">Create Account</a>
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>
