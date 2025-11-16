@@ -20,9 +20,12 @@
         <form action="\register" method="POST">
             @csrf
             <div class="profile-section">
-                <div id="profile"><i class="fa-solid fa-user"></i></div>
-
-                <button type="file" id="profile-upload-btn">Upload Profile Pic</button>
+                <div id="profile">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <input type="file" id="profileInput" accept="image/*" style="display:none;">
+                <button type="button" id="profile-upload-btn">Upload Profile Pic</button>
+                <button type="button" id="profile-remove-btn" style="display:none;">Remove</button>
             </div>
 
 
@@ -44,28 +47,36 @@
 
                 <div>
                     <label for="">Re - Password</label>
-                    <input type="password" name="" >
+                    <input type="password" name="confirm_password" >
                 </div>
                 
             </div>
 
             <div class="career-section">
                 <p><b>Add your Qualifications</b></p>
-                <p style="color: #9BA0AA;">Qualifications 1</p>
-                <input type="text" name = "qualification_name[]">
-                <div>
-                    <a href="">Add Qualification</a>
+                
+                <div id="qualifications-wrapper">
+                    <div class="qualifications-group">
+                        <p style="color: #9BA0AA;">Qualifications 1</p>
+                        <input type="text" name = "qualification_name[]">
+                    </div>
                 </div>
-
+               
+                <div class="qual-btn-group">
+                    <button type="button" id="add-qual-btn">Add Qualification</button>
+                    <button type="button" id="remove-qual-btn">remove</button>
+                </div>
             </div>
 
             <div class="career-section">
                 <p><b>Add your Experiences</b></p>
                 <p style="color: #9BA0AA;">Experiences 1</p>
-                <input type="text" name="experience_name[]">
-                <div>
-                    <a href="">Add Experience</a>
+                <div id="exper-wrapper">
+                    <input type="text" name = "experience_name[]">
+                    <input type="text" name = "experience_name[]">
+                    <input type="text" name = "experience_name[]">
                 </div>
+                <button id="add-expe-btn">Add Qualification</button>
 
             </div>
 
@@ -113,7 +124,7 @@
 
 
             <button type="submit">Sign Up</button>
-            <button ><a href="/login">Login</a></button>
+            <button type="button"><a href="/login">Login</a></button>
         </form>
 
     </div>

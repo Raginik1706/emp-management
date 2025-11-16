@@ -105,6 +105,9 @@ form input {
     border-radius: 6px;
     background-color: #F5F5FA;
     border: 1px solid #BECBE8;
+    outline-style: none;
+    padding: 0px 6px;
+
 }
 
 .password-section {
@@ -149,6 +152,59 @@ button a {
 .career-section a {
     text-decoration: none;
     color: #0084FF;
+}
+
+#qualifications-wrapper, #exper-wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.qualifications-group{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    padding-top: 20px;
+}
+.qualifications-group p{
+     margin-top: -20px;
+     position: absolute;
+}
+
+
+#add-qual-btn{
+  color: black;
+  background-color:transparent;
+  font-weight: 600;
+  color: #0084FF;
+  border: none;
+  width: 150px;
+  height: 20px;
+  padding: 0px;
+  margin-top:2px;
+  margin-left: -15px;
+  cursor: pointer;
+}
+
+#remove-qual-btn{
+  color: black;
+  background-color:transparent;
+  font-weight: 600;
+  color: #ff0000;
+  border: none;
+  width: 150px;
+  height: 20px;
+  padding: 0px;
+  margin-top:2px;
+  margin-left: -15px;
+  cursor: pointer; 
+  display: none;
+}
+
+.qual-btn-group{
+    display: flex;
 }
 
 .locality {
@@ -202,4 +258,33 @@ button a {
 }
 .location p{
     margin-bottom: 12px;
+}
+
+
+/* ---- profile picture upload css -----  */
+
+#profile-remove-btn{
+    width: 130px;
+    height: 30px;
+    border: 2px solid #ee0000;
+    border-radius: 6px;
+    color: #ff0000;
+    margin-top: 8px;
+    background-color: white
+}
+
+
+
+#add-expe-btn{
+  color: black;
+  background-color:transparent;
+  font-weight: 600;
+  color: #0084FF;
+  border: none;
+  width: 150px;
+  height: 20px;
+  padding: 0px;
+  margin-top:2px;
+  margin-left: -15px;
+  cursor: pointer;
 }

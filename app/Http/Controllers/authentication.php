@@ -18,9 +18,10 @@ class authentication extends Controller
     public function register(Request $request)
     {
       try{
-
       
       DB::beginTransaction();
+
+
          $user = User::create([
             'name'=> $request->name,
             'email'=>$request->email,
