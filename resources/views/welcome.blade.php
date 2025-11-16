@@ -10,7 +10,7 @@
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        {{-- @vite(['resources/js/app.js']); --}}
+        @vite(['resources/js/app.js'])
 </head>
 
 <body>
@@ -30,21 +30,21 @@
             <input type="text" name="name">
 
             <label for="">Date of Birth</label>
-            <input type="date" name="dob" id="">
+            <input type="date" name="dob" >
 
             <label for="">Email Address</label>
-            <input type="email" name="email" id="">
+            <input type="email" name="email" >
 
             <div class="password-section">
                 <div>
                     <label for="">Password</label>
-                    <input type="password" name="password" id="">
+                    <input type="password" name="password" >
                     <p>Use A-Z,a-z,0-9, !@#$%^&* in password</p>
                 </div>
 
                 <div>
                     <label for="">Re - Password</label>
-                    <input type="password" name="" id="">
+                    <input type="password" name="" >
                 </div>
                 
             </div>
@@ -72,18 +72,18 @@
             <div class="address">
                 <p><b>Permanent Address</b></p>
                 <input type="text"  name="p_line1" placeholder="Line1">
-                <input type="text" name="p_line2" id="" placeholder="Line2">
+                <input type="text" name="p_line2"  placeholder="Line2">
              </div>
 
             <div class="locality">
                 <div>
                     <p>City</p>
-                    <input type="text" name="p_city" id="" placeholder="City">
+                    <input type="text" name="p_city"  placeholder="City">
                 </div>
 
                 <div>
                     <p>State</p>
-                    <input type="text" name="p_state" id="">
+                    <input type="text" name="p_state" >
                 </div>
 
             </div>
@@ -93,7 +93,7 @@
 
                 <input type="text" name="c_line1" placeholder="Line1" >
                 <div>
-                    <input type="text" name="c_line2" id="" placeholder="Line2" >
+                    <input type="text" name="c_line2"  placeholder="Line2" >
                 </div>
 
 
@@ -101,19 +101,19 @@
             <div class="locality">
                 <div>
                     <p>City</p>
-                    <input type="text" name="c_city" id="" placeholder="City">
+                    <input type="text" name="c_city"  placeholder="City">
                 </div>
 
                 <div>
                     <p>State</p>
-                    <input type="text" name="c_state" id="">
+                    <input type="text" name="c_state" >
                 </div>
 
             </div>
 
 
             <button type="submit">Sign Up</button>
-            <button type="submit"><a href="/login">Login</a></button>
+            <button ><a href="/login">Login</a></button>
         </form>
 
     </div>

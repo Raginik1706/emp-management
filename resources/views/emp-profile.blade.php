@@ -16,27 +16,36 @@
                 njknj
             </div>
         </div>
-        <h2>name</h2>
-        <p>email</p>
-        <p>dateofbirth</p>
+        <h2>{{$user?->name}}</h2>
+        {{-- <h2>{{session('userid')}}</h2> --}}
+        <p>{{$user?->email}}</p>
+        <p>DOB - {{ $user?->dob_formatted }}</p>
 
    
 
     <div class="location">
         <div>
             <p><b>Current Address</b></p>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            @php
+            $current = explode('||', $user->address?->curr_address ?? '');
+            @endphp
+
+            <div>{{ $current[0] ?? 'N/A' }}</div>
+            <div>{{ $current[1] ?? 'N/A' }}</div>
+            <div>{{ $user->address->curr_city ?? 'N/A' }}</div>
+            <div>{{$user->address->curr_state ?? 'N/A'}}</div>
         </div>
 
         <div>
             <p><b>Permanent Address</b></p>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            @php
+            $permanent = explode('||', $user->address?->per_address ?? '');
+            @endphp
+
+            <div>{{ $permanent[0] ?? 'N/A' }}adsgfryjgkjhbjvgngknkkmmkdsovjsdoivjcweoicjes nskoegvfdkvendkefwefclkdsssssssssssssssssssssssssssssocfsd cefjewiofjwofjoewfjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjoqqwdjsdosdojdnji</div>
+            <div>{{ $permanent[1] ?? 'N/A' }}</div>
+            <div>{{ $user->address->per_city ?? 'N/A' }}</div>
+           <div>{{$user->address->per_state ?? 'N/A'}}</div>
 
         </div>
     </div>

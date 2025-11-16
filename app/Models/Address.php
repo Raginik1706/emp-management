@@ -16,4 +16,11 @@ class Address extends Model
         'curr_city',
         'curr_state'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'userid');
+    }
+
+   
 }

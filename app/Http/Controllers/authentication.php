@@ -29,8 +29,9 @@ class authentication extends Controller
             'dob'=> $request->dob,
             'age'=> Carbon::parse($request->dob)->age,
          ]);
-         $permanent_address = $request->p_line1.' '.$request->p_line2; 
-         $current_address = $request->c_line1.' '.$request->c_line2; 
+        $permanent_address = $request->p_line1 . '||' . $request->p_line2;
+        $current_address = $request->c_line1 . '||' . $request->c_line2;
+
  
          Address::create([
             'userid'=>$user->id,
@@ -69,8 +70,8 @@ class authentication extends Controller
      catch (Exception $e) {
       DB::rollBack();
       return response()->json([
-        'error' => $e->getMessage(), // shows error message
-         ], 500); // HTTP 500 = Server Error
+        'error' => $e->getMessage(), 
+         ], 500); 
       }
       
    }
@@ -84,5 +85,33 @@ class authentication extends Controller
            'password'=>'required|min:8'
       ]);
       
+      $user = User::where('email' , $request->email)->first();
+     if(!$user)
+
+      {
+            return back()->withErrors(['email'=> 'invalid email']);
+      }elseif(!Hash::check($request->password, $user->password))
+      {
+          return back()->withErrors(['password'=> 'invalid password']);
+      }
+      session(['userid'=> $user->id ,
+               'name' => $user->name
+     ]);
+
+     return redirect()->route('profile');
+   }
+
+   public function empProfile()
+   {
+      if(!session()->has('userid'))
+      {
+           return redirect()->route('login');
+      }
+      $user = User::with(['address' , 'qualification' , 'experience'])->find(session('userid'));
+      
+      // dd($user);
+
+      return view('emp-profile' ,compact('user') );
+
    }
 }

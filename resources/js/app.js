@@ -2,7 +2,7 @@ import './bootstrap';
 
 import $ from 'jquery';
 window.$ = $;
-window.jquery = $;
+window.jQuery = $;
 
 
 $(document).ready(

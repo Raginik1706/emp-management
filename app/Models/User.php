@@ -6,6 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Address;
+use App\Models\Qualification;
+use App\Models\Experience;
+use Carbon\Carbon;
+
 
 class User extends Authenticatable
 {
@@ -25,6 +30,28 @@ class User extends Authenticatable
         'dob',
         'age'
     ];
+
+    public function address()
+        {
+            return $this->hasOne(Address::class,'userid');
+        }
+
+     public function qualification()
+        {
+            return $this->hasMany(Qualification::class,'userid');
+        }
+
+     public function experience()
+        {
+            return $this->hasMany(Experience::class,'userid');
+        }
+
+   
+     public function getDobFormattedAttribute()
+        {
+            return Carbon::parse($this->dob)->format('j M Y');
+        }
+
 
     /**
      * The attributes that should be hidden for serialization.

@@ -18,13 +18,19 @@
             <label for="">Email Address</label>
             <input type="email" name="email" id="login-email">
 
+            @error('email')
+                <span style="color: red">{{$message}}</span>
+            @enderror
             <div>
                 <label for="">Password</label>
                 <br>
                 <br>
                 <input type="password" name="password" id="login-password">
             </div>
-
+ 
+            @error('password')
+                <span style="color: red">{{$message}}</span>
+            @enderror
 
             <button type="submit">Login</button>
             <div class="create-account-link">

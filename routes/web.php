@@ -15,3 +15,5 @@ Route::get('/login',function()
 Route::post('/register' , [Authentication::class,'register']);
 
 Route::post('/empLogin' , [Authentication::class,'login']);
+
+Route::get('/emp-profile' , [Authentication::class,'empProfile'])->name('profile');
