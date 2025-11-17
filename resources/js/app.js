@@ -4,12 +4,11 @@ import $ from 'jquery';
 window.$ = $;
 window.jQuery = $;
 
-// Upload button triggers file input
+
 $('#profile-upload-btn').on('click', function () {
     $('#profileInput').click();
 });
 
-// When file selected
 $('#profileInput').on('change', function () {
     const file = this.files[0];
     if (!file) return;
@@ -21,8 +20,8 @@ $('#profileInput').on('change', function () {
                  style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
         `);
 
-        $('#profile-upload-btn').hide();   // hide upload button
-        $('#profile-remove-btn').show();  // show remove button
+        $('#profile-upload-btn').hide();   
+        $('#profile-remove-btn').show();  
     };
 
     reader.readAsDataURL(file);
@@ -30,16 +29,16 @@ $('#profileInput').on('change', function () {
     console.log("Reader data",reader);
 });
 
-// Remove button resets everything
+
 $('#profile-remove-btn').on('click', function () {
 
-    // restore default icon
+   
     $('#profile').html(`<i class="fa-solid fa-user"></i>`);
 
-    // clear selected file
+   
     $('#profileInput').val('');
 
-    // buttons UI
+   
     $('#profile-remove-btn').hide();
     $('#profile-upload-btn').show();
 });
@@ -61,23 +60,64 @@ $('#add-qual-btn').on('click', function(e){
 });
 
 
-// REMOVE QUALIFICATION (last one)
+// REMOVE QUALIFICATION 
 $('#remove-qual-btn').on('click', function () {
 
     let count = $('#qualifications-wrapper .qualifications-group').length;
 
     if (count > 1) {
-        // remove last qualification block
+        
         $('#qualifications-wrapper .qualifications-group').last().remove();
     }
 
-    // update numbering after removal
+  
     $('#qualifications-wrapper .qualifications-group').each(function (index) {
         $(this).find('p').text(`Qualifications ${index + 1}`);
     });
 
-    // if only 1 qualification left → hide remove button
+   
     if ($('#qualifications-wrapper .qualifications-group').length <= 1) {
         $('#remove-qual-btn').hide();
+    }
+});
+
+/*  add experinces or remove*/
+
+
+$('#add-exp-btn').on('click', function(e){
+    
+    let count =$('#experiences-wrapper .experiences-group').length + 1;
+
+    if(count >0){
+        $('#remove-exp-btn').show();
+    }
+
+
+
+    $('#experiences-wrapper').append(`<div class="experiences-group">
+                        <p style="color: #9BA0AA;">Experiences ${count}</p>
+                        <input type="text" name = "experience_name[]">
+                    </div>`);
+});
+
+
+// REMOVE Experience
+$('#remove-exp-btn').on('click', function () {
+
+    let count = $('#experiences-wrapper .experiences-group').length;
+
+    if (count > 1) {
+        
+        $('#experiences-wrapper .experiences-group').last().remove();
+    }
+
+  
+    $('#experiences-wrapper .experiences-group').each(function (index) {
+        $(this).find('p').text(`Experiences ${index + 1}`);
+    });
+
+   
+    if ($('#experiences-wrapper .experiences-group').length <= 1) {
+        $('#remove-exp-btn').hide();
     }
 });

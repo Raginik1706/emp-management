@@ -68,17 +68,22 @@
                 </div>
             </div>
 
-            <div class="career-section">
+             <div class="career-section">
                 <p><b>Add your Experiences</b></p>
-                <p style="color: #9BA0AA;">Experiences 1</p>
-                <div id="exper-wrapper">
-                    <input type="text" name = "experience_name[]">
-                    <input type="text" name = "experience_name[]">
-                    <input type="text" name = "experience_name[]">
+                
+                <div id="experiences-wrapper">
+                    <div class="experiences-group">
+                        <p style="color: #9BA0AA;">Experiences 1</p>
+                        <input type="text" name = "experience_name[]">
+                    </div>
                 </div>
-                <button id="add-expe-btn">Add Qualification</button>
-
+               
+                <div class="exp-btn-group">
+                    <button type="button" id="add-exp-btn">Add Experience</button>
+                    <button type="button" id="remove-exp-btn">remove</button>
+                </div>
             </div>
+
 
             <div class="address">
                 <p><b>Permanent Address</b></p>
