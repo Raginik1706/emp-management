@@ -154,27 +154,27 @@ button a {
     color: #0084FF;
 }
 
-#qualifications-wrapper, #exper-wrapper{
+#qualifications-wrapper, #experiences-wrapper{
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.qualifications-group{
+.qualifications-group , .experiences-group{
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 0px;
     padding-top: 20px;
 }
-.qualifications-group p{
+.qualifications-group p , .experiences-group p{
      margin-top: -20px;
      position: absolute;
 }
 
 
-#add-qual-btn{
+#add-qual-btn , #add-exp-btn{
   color: black;
   background-color:transparent;
   font-weight: 600;
@@ -188,7 +188,7 @@ button a {
   cursor: pointer;
 }
 
-#remove-qual-btn{
+#remove-qual-btn , #remove-exp-btn{
   color: black;
   background-color:transparent;
   font-weight: 600;
@@ -203,7 +203,7 @@ button a {
   display: none;
 }
 
-.qual-btn-group{
+.qual-btn-group , .exp-btn-group{
     display: flex;
 }
 
@@ -275,16 +275,3 @@ button a {
 
 
 
-#add-expe-btn{
-  color: black;
-  background-color:transparent;
-  font-weight: 600;
-  color: #0084FF;
-  border: none;
-  width: 150px;
-  height: 20px;
-  padding: 0px;
-  margin-top:2px;
-  margin-left: -15px;
-  cursor: pointer;
-}
