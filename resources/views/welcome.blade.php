@@ -31,27 +31,43 @@
 
             <label for="">Full Name</label>
             <input type="text" name="name">
+            @error('name')
+                <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+            @enderror
 
             <label for="">Date of Birth</label>
             <input type="date" name="dob" >
+             @error('dob')
+                <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+            @enderror
 
             <label for="">Email Address</label>
             <input type="email" name="email" >
+             @error('email')
+                <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+            @enderror
 
             <div class="password-section">
                 <div>
                     <label for="">Password</label>
                     <input type="password" name="password" >
                     <p>Use A-Z,a-z,0-9, !@#$%^&* in password</p>
+                     @error('password')
+                     <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                    @enderror
+
                 </div>
 
                 <div>
                     <label for="">Re - Password</label>
-                    <input type="password" name="confirm_password" >
-                </div>
-                
-            </div>
+                    <input type="password" name="password_confirmation">
+                     @error('password_confirmation')
+                        <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                    @enderror
 
+                </div>
+            </div>
+           
             <div class="career-section">
                 <p><b>Add your Qualifications</b></p>
                 
@@ -59,8 +75,12 @@
                     <div class="qualifications-group">
                         <p style="color: #9BA0AA;">Qualifications 1</p>
                         <input type="text" name = "qualification_name[]">
+                        @error('qualification_name.*')
+                            <span style="color:red; font-weight:600; font-size:13px; ">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
+                
                
                 <div class="qual-btn-group">
                     <button type="button" id="add-qual-btn">Add Qualification</button>
@@ -75,6 +95,9 @@
                     <div class="experiences-group">
                         <p style="color: #9BA0AA;">Experiences 1</p>
                         <input type="text" name = "experience_name[]">
+                        @error('experience_name.*')
+                            <span style="color:red; font-weight:600; font-size:13px; ">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
                
@@ -89,23 +112,33 @@
                 <p><b>Permanent Address</b></p>
                 <input type="text"  name="p_line1" placeholder="Line1">
                 <input type="text" name="p_line2"  placeholder="Line2">
+                @error('p_line1')
+                    <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                @enderror
              </div>
 
             <div class="locality">
                 <div>
                     <p>City</p>
                     <input type="text" name="p_city"  placeholder="City">
+                    @error('p_city')
+                        <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                    @enderror
                 </div>
+                
 
                 <div>
                     <p>State</p>
                     {{-- <input type="text" name="p_state" > --}}
                     <select name="p_state" id="p_state">
-                        <option value="0" disable selected>Select State</option>
+                        <option value="" disable selected>Select State</option>
                         @foreach ($states as $state)
                             <option value="{{$state}}" >{{$state}}</option>
                         @endforeach
                     </select>
+                    @error('p_state')
+                        <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                    @enderror
                 </div>
 
             </div>
@@ -117,6 +150,9 @@
                 <div>
                     <input type="text" name="c_line2"  placeholder="Line2" >
                 </div>
+                 @error('c_line1')
+                        <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                @enderror
 
 
             </div>
@@ -124,11 +160,17 @@
                 <div>
                     <p>City</p>
                     <input type="text" name="c_city"  placeholder="City">
+                     @error('c_city')
+                        <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div>
                     <p>State</p>
                     <input type="text" name="c_state" >
+                    @error('c_state')
+                        <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                    @enderror
                 </div>
 
             </div>

@@ -25,8 +25,46 @@ class authentication extends Controller
    //
     public function register(Request $request)
     {
-      try{
       
+         $request->validate([
+            // -- user table --
+            'name'=>'required|max:255',
+            'email'=>'required|email|unique:users,email',
+            'password'=>'required|min:8|confirmed',
+            'profile'=>'nullable|image|mimes:jpeg,png,jpg',
+            'dob'=>'required|date|before:today',
+
+            // -- address ---
+            'p_line1'=>'required|max:255',
+            'p_city'=>'required|max:100',
+            'p_state'=>'required|max:100',
+            'c_line1'=>'required|max:255',
+            'c_city'=>'required|max:100',
+            'c_state'=>'required|max:100',
+
+            'qualification_name' => 'required|array',
+            'qualification_name.*' => 'required|string', // <-- MUST HAVE
+            'experience_name' => 'required|array',
+            'experience_name.*' => 'required|string',   // <-- MUST HAVE
+         ],[
+            'p_line1.required'=>'Permanent address is required',
+            'c_line1.required'=>'Current address is required',
+            'p_city.required'=>'City is Required',
+            'p_state.required'=>'State is Required',
+            'c_city.required'=>'City is Required',
+            'c_state.required'=>'State is Required',
+             // Parent array-level errors
+            'qualification_name.required' => 'Please add at least one qualification.',
+            'experience_name.required' => 'Please add at least one experience.',
+
+            // Child item-level errors
+            'qualification_name.*.required' => 'Qualification field cannot be empty.',
+            'experience_name.*.required' => 'Experience field cannot be empty.',
+         ]);
+
+
+      try{
+       
       DB::beginTransaction();
 
 
@@ -77,9 +115,9 @@ class authentication extends Controller
          return redirect()->route('login');
       }
      catch (Exception $e) {
-      DB::rollBack();
-      return response()->json([
-        'error' => $e->getMessage(), 
+         DB::rollBack();
+         return response()->json([
+            'error' => $e->getMessage(), 
          ], 500); 
       }
       
