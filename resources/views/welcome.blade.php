@@ -94,7 +94,13 @@
 
                 <div>
                     <p>State</p>
-                    <input type="text" name="p_state" >
+                    {{-- <input type="text" name="p_state" > --}}
+                    <select name="p_state" id="p_state">
+                        <option value="0" disable selected>Select State</option>
+                        @foreach ($states as $state)
+                            <option value="{{$state}}" >{{$state}}</option>
+                        @endforeach
+                    </select>
                 </div>
 
             </div>

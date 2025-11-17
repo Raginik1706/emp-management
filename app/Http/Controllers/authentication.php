@@ -14,7 +14,15 @@ use Exception;
 
 class authentication extends Controller
 {
-    //
+   
+   // ---- register view ----
+   public function registerView(){
+     
+     $states=json_decode(file_get_contents(public_path('json/state.json')),true);
+     return view('welcome', compact('states'));
+   }
+   
+   //
     public function register(Request $request)
     {
       try{

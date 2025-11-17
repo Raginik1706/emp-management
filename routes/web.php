@@ -3,9 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[Authentication::class , 'registerView']);
 
 Route::get('/login',function()
 {
