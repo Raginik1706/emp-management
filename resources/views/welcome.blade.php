@@ -50,9 +50,12 @@
             <div class="password-section">
                 <div>
                     <label for="">Password</label>
-                    <input type="password" name="password" >
-                    <p>Use A-Z,a-z,0-9, !@#$%^&* in password</p>
-                     @error('password')
+                    <input type="password" name="password" id="password">
+                    <p id="strError">Use A-Z,a-z,0-9, !@#$%^&* in password</p>
+                    <span id="pwdError"></span><br/>
+                    
+
+                    @error('password')
                      <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
                     @enderror
 

@@ -28,9 +28,20 @@
 
 </div>
 
-        <h2>{{$user?->name}}</h2>
+       
+        <div style="position:relative;">
+             <h2>{{$user?->name}}</h2>
+            <label for="NameInput" class="edit-icon" style="margin:0px -30px 0px 0px;">
+                <i class="fa-solid fa-pen" style="color:gray"></i>
+            </label>
+        </div>
         <p>{{$user?->email}}</p>
-        <p>DOB - {{ $user?->dob_formatted }}</p>
+        <div style="position:relative;">
+            <p>DOB - {{ $user?->dob_formatted }}</p>
+            <label for="DOBInput" class="edit-icon" style="margin:0px -30px 0px 0px;">
+                <i class="fa-solid fa-pen" style="color:gray"></i>
+            </label>
+        </div>
 
     {{-- qualification and experiences --}}
 

@@ -132,3 +132,13 @@ $("#profileInput").on("change", function () {
 
     reader.readAsDataURL(this.files[0]);
 });
+
+// Choose one regex:
+  const reStrong = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/; // strong
+  const strong = reStrong; // pick your desired rule
+
+  $("#password").on('input',function(){
+    const val=$(this).val();
+    const validStrong=strong.test(val);
+    $("#strError").css({"color":validStrong?"green":"red"});
+  });
