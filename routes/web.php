@@ -15,3 +15,13 @@ Route::post('/register' , [Authentication::class,'register']);
 Route::post('/empLogin' , [Authentication::class,'login']);
 
 Route::get('/emp-profile' , [Authentication::class,'empProfile'])->name('profile');
+
+Route::get('/adminDashboard' , [Authentication::class,'displayAdminDashboard'])->name('admin_dashboard');
+
+Route::get('/admin-login',function()
+{
+    return view('admin');
+})->name('admin');
+
+Route::get('/logout', [Authentication::class , 'logout'])->name('logout');
+

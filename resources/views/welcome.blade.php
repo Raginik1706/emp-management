@@ -17,32 +17,32 @@
 
     <div class="container">
         <h2>Employee Registration Form</h2>
-        <form action="\register" method="POST">
+        <form action="\register" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="profile-section">
                 <div id="profile">
                     <i class="fa-solid fa-user"></i>
                 </div>
-                <input type="file" id="profileInput" accept="image/*" style="display:none;">
+                <input type="file" id="profileInput" name="profile" accept="image/*" style="display:none;" >
                 <button type="button" id="profile-upload-btn">Upload Profile Pic</button>
                 <button type="button" id="profile-remove-btn" style="display:none;">Remove</button>
             </div>
 
 
             <label for="">Full Name</label>
-            <input type="text" name="name">
+            <input type="text" name="name" value="{{old('name')}}">
             @error('name')
                 <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
             @enderror
 
             <label for="">Date of Birth</label>
-            <input type="date" name="dob" >
+            <input type="date" name="dob" value="{{old('dob')}}">
              @error('dob')
                 <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
             @enderror
 
             <label for="">Email Address</label>
-            <input type="email" name="email" >
+            <input type="email" name="email" value="{{old('email')}}">
              @error('email')
                 <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
             @enderror
@@ -110,8 +110,8 @@
 
             <div class="address">
                 <p><b>Permanent Address</b></p>
-                <input type="text"  name="p_line1" placeholder="Line1">
-                <input type="text" name="p_line2"  placeholder="Line2">
+                <input type="text"  name="p_line1" placeholder="Line1" value="{{old('p_line1')}}">
+                <input type="text" name="p_line2"  placeholder="Line2" value="{{old('p_line2')}}">
                 @error('p_line1')
                     <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
                 @enderror
@@ -120,7 +120,7 @@
             <div class="locality">
                 <div>
                     <p>City</p>
-                    <input type="text" name="p_city"  placeholder="City">
+                    <input type="text" name="p_city"  placeholder="City" value="{{old('p_city')}}">
                     @error('p_city')
                         <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
                     @enderror
@@ -146,9 +146,9 @@
             <div class="address">
                 <p><b>Current Address</b></p>
 
-                <input type="text" name="c_line1" placeholder="Line1" >
+                <input type="text" name="c_line1" placeholder="Line1" value="{{old('c_line1')}}">
                 <div>
-                    <input type="text" name="c_line2"  placeholder="Line2" >
+                    <input type="text" name="c_line2"  placeholder="Line2" value="{{old('c_line2')}}">
                 </div>
                  @error('c_line1')
                         <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
@@ -159,7 +159,7 @@
             <div class="locality">
                 <div>
                     <p>City</p>
-                    <input type="text" name="c_city"  placeholder="City">
+                    <input type="text" name="c_city"  placeholder="City" value="{{old('c_city')}}">
                      @error('c_city')
                         <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
                     @enderror
@@ -167,7 +167,12 @@
 
                 <div>
                     <p>State</p>
-                    <input type="text" name="c_state" >
+                     <select name="c_state" id="c_state">
+                        <option value="" disable selected>Select State</option>
+                        @foreach ($states as $state)
+                            <option value="{{$state}}" >{{$state}}</option>
+                        @endforeach
+                    </select>
                     @error('c_state')
                         <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
                     @enderror

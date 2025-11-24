@@ -121,3 +121,14 @@ $('#remove-exp-btn').on('click', function () {
         $('#remove-exp-btn').hide();
     }
 });
+
+// profile edit section
+$("#profileInput").on("change", function () {
+    let reader = new FileReader();
+
+    reader.onload = function (e) {
+        $("#profileImage").attr("src", e.target.result);
+    };
+
+    reader.readAsDataURL(this.files[0]);
+});

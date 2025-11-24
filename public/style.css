@@ -220,6 +220,7 @@ button a {
     width: 100%;
     flex-direction: column;
     gap: 10px;
+    
 }
 .locality input{
     padding: 10px;
@@ -235,31 +236,83 @@ button a {
     width: 100%;
      padding: 10px;
 }
-/* Employee Profile page css ..........*/
 
-.location{
-    display: flex;
-    gap: 30px;
-    background-color: #FFFFFF;
-    border-radius: 10px;
-    padding: 20px;
+/* Employee Profile page css ..........*/
+.profile-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: auto;
 }
-.location div{
-    display: flex;
-    flex-direction: column;
-    height: 200px;
-    width: 250px;
-    gap: 4px;
-    
+
+.profile-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
    
 }
-.location div div
-{
- background-color: #F5F5FA;
+
+.edit-icon {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    padding: 7px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-icon i {
+    font-size: 14px;
+    color: #333;
+}
+
+.emp-container {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;      
+    padding: 20px;
+}
+
+.box1 {
+  width: 90%;        /* IMPORTANT */
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+
+.box1 > div {
+  flex: 1;       /* Equal width */
+}
+
+.box1 div {
+  min-height: 40px;
+  min-width: 150px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.box1 div div {
+  background-color: #F5F5FA;
   border-radius: 4px;
 }
-.location p{
-    margin-bottom: 12px;
+.box1 > div > div {
+    background-color: #F5F5FA;
+    border-radius: 4px;
+    padding: 10px 12px;
+    word-wrap: break-word;
 }
 
 
@@ -275,5 +328,76 @@ button a {
     background-color: white
 }
 
+/* css code for admin dashboard page */
 
+.page-container {
+    width: 90%;
+    margin: 50px auto;
+    padding: 40px;
+    background: #f3eef4;
+    border-radius: 8px;
+}
 
+/* Header Left + Right */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header-row h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.admin-info span {
+    font-size: 16px;
+    margin-right: 15px;
+    color: #333;
+}
+
+.logout {
+    font-size: 16px;
+    color: #2f78ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Table Styling */
+
+.table-wrapper {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    font-size: 16px;
+    padding-bottom: 15px;
+    color: #555;
+}
+
+td {
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+    color: #333;
+}
+
+.view-btn {
+    color: #2f78ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.view-btn:hover {
+    text-decoration: underline;
+}
