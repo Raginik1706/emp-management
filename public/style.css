@@ -315,6 +315,38 @@ button a {
     word-wrap: break-word;
 }
 
+.edit-icon {
+    position: absolute;
+    right: -25px;
+    top: 5px;
+    opacity: 0;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.edit-wrapper:hover .edit-icon {
+    opacity: 1;
+}
+
+.editable {
+    position: relative;
+    display: inline-block;
+}
+
+.editable .edit-icon {
+    position: absolute;
+    right: 10px;
+    top: 20%;
+    transform: translateY(-50%);
+    opacity: 0;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.editable:hover .edit-icon {
+    opacity: 1;
+}
+
 
 /* ---- profile picture upload css -----  */
 

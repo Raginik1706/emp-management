@@ -29,29 +29,34 @@
 </div>
 
        
-        <div style="position:relative;">
+        <div class = "edit-wrapper" style="position:relative;">
              <h2>{{$user?->name}}</h2>
-            <label for="NameInput" class="edit-icon" style="margin:0px -30px 0px 0px;">
+            <label for="nameInput" class="edit-icon" style="margin:-15px 0px 0px 0px;">
                 <i class="fa-solid fa-pen" style="color:gray"></i>
             </label>
+             <input type="file" id="nameInput" accept="image/*" hidden>
         </div>
         <p>{{$user?->email}}</p>
-        <div style="position:relative;">
+        <div class="edit-wrapper" style="position:relative;">
             <p>DOB - {{ $user?->dob_formatted }}</p>
-            <label for="DOBInput" class="edit-icon" style="margin:0px -30px 0px 0px;">
+            <label for="DOBInput" class="edit-icon" style="margin:-15px 0px 0px 0px;">
                 <i class="fa-solid fa-pen" style="color:gray"></i>
             </label>
+             <input type="file" id="DOBInput" accept="image/*" hidden>
         </div>
 
     {{-- qualification and experiences --}}
 
-     <div class="box1">
+     <div class="box1" class="edit-wrapper">
         
         <div>
             <p><b>Qualifications</b></p>
             @foreach ($user?->qualification as $item)
-                 <div>{{$item->qualification_name}}</div>
-            @endforeach
+    <div class="editable">
+        <span>{{ $item->qualification_name }}</span>
+        <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
+    </div>
+    @endforeach
             
              
         </div>
@@ -60,8 +65,11 @@
         <div>
             <p><b>Experiences</b></p>
              @foreach ($user?->experience as $item)
-                 <div>{{$item->experience_name}}</div>
-            @endforeach
+    <div class="editable">
+        <span>{{ $item->experience_name }}</span>
+        <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
+    </div>
+    @endforeach
         </div>
     </div>
 
