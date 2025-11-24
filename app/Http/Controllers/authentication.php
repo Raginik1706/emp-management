@@ -75,6 +75,7 @@ class authentication extends Controller
             $profileName = $imgFile->getClientOriginalName();
             $imgFile->move(public_path('profileImages'), $profileName);
          }
+   
 
          $user = User::create([
             'name' => $request->name,
@@ -190,5 +191,18 @@ class authentication extends Controller
       session()->flush();
       return redirect('/login');
    }
+
+
+   // ------- update profile methods -------------
+
+   public function updateProfile(Request $request)
+    {
+         $userId = $request->session()->get('userid');
+         dd($userId );
+         if (!$userId ) {
+                return redirect()->back()->with('error', 'Not authenticated');
+         }
+       
+    }
 }
 

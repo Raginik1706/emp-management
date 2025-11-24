@@ -311,7 +311,7 @@ button a {
 .box1 > div > div {
     background-color: #F5F5FA;
     border-radius: 4px;
-    padding: 10px 12px;
+    padding:8px ;
     word-wrap: break-word;
 }
 
@@ -346,6 +346,8 @@ button a {
 .editable:hover .edit-icon {
     opacity: 1;
 }
+
+
 
 
 /* ---- profile picture upload css -----  */

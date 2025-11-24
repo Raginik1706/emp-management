@@ -25,3 +25,6 @@ Route::get('/admin-login',function()
 
 Route::get('/logout', [Authentication::class , 'logout'])->name('logout');
 
+Route::post('/employee/update', [Authentication::class, 'updateProfile'])->name('employee.update');
+
+

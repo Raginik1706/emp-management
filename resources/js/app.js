@@ -142,3 +142,52 @@ $("#profileInput").on("change", function () {
     const validStrong=strong.test(val);
     $("#strError").css({"color":validStrong?"green":"red"});
   });
+
+
+$(document).on("click", ".edit-icon", function () {
+    let input = $(this).siblings("input");
+
+    // Agar ye DOB wala input hai
+    if (input.attr("id") === "DobInput") {
+        // Agar abhi text hai -> date me convert karo
+        if (input.attr("type") === "text") {
+            let dateObj = new Date(input.val());
+            let isoDate = dateObj.toISOString().split("T")[0]; // "2006-06-06"
+
+            input.attr("type", "date");
+            input.prop("readonly", false);
+            input.val(isoDate);
+            // input.css("outline-style", "solid");
+            input.focus();
+        } else {
+            // Agar abhi date hai -> wapas text me convert karo
+            let dateObj = new Date(input.val());
+            let formatted = ("0" + dateObj.getDate()).slice(-2) + " " +
+                            dateObj.toLocaleString("default", { month: "short" }) + " " +
+                            dateObj.getFullYear();
+
+            input.attr("type", "text");
+            input.prop("readonly", true);
+            input.val(formatted);
+            input.css("border", "none");
+        }
+    } else {
+        // Normal text inputs ke liye simple toggle
+        if (input.prop("readonly")) {
+            input.prop("readonly", false);
+            // input.css("outline-style", "solid");
+            input.focus();
+        } else {
+            input.prop("readonly", true);
+            input.css("border", "none");
+        }
+    }
+});
+
+
+
+
+
+
+
+
