@@ -195,14 +195,119 @@ class authentication extends Controller
 
    // ------- update profile methods -------------
 
-   public function updateProfile(Request $request)
-    {
-         $userId = $request->session()->get('userid');
-         dd($userId );
-         if (!$userId ) {
-                return redirect()->back()->with('error', 'Not authenticated');
-         }
+   // public function updateProfile(Request $request)
+   //  {
+   //       $userId = $request->session()->get('userid');
+   //       dd($userId );
+   //       if (!$userId ) {
+   //              return redirect()->back()->with('error', 'Not authenticated');
+   //       }
        
+   //  }
+
+  public function updateProfile(Request $request)
+{
+    // Get logged in user ID using session
+    $userId = session('userid');
+
+    if (!$userId) {
+        return back()->with('error', 'User is not logged in!');
     }
+
+    $user = User::find($userId);
+
+    // ---- Update NAME ----
+    if ($request->filled('name')) {
+        $user->name = $request->name;
+    }
+
+    // ---- Update DOB ----
+    if ($request->filled('dob')) {
+        $user->dob = date('Y-m-d', strtotime($request->dob));
+        $user->age = \Carbon\Carbon::parse($user->dob)->age;
+    }
+
+    // ---- Update Profile Image ----
+    if ($request->hasFile('profile')) {
+        $img = $request->file('profile');
+        $imgName = time().'_'.$img->getClientOriginalName();
+        $img->move(public_path('profileImages'), $imgName);
+
+        $user->profile = $imgName;
+    }
+
+    // SAVE BASIC DETAILS
+    $user->save();
+
+
+    
+    // UPDATE ADDRESS
+    
+    $address = Address::where('userid', $userId)->first();
+
+    if ($address) {
+        $address->per_address = $request->p_line1 . '||' . $request->p_line2;
+        $address->curr_address = $request->c_line1 . '||' . $request->c_line2;
+
+        $address->per_city = $request->p_city;
+        $address->per_state = $request->p_state;
+
+        $address->curr_city = $request->c_city;
+        $address->curr_state = $request->c_state;
+
+        $address->save();
+    }
+
+    
+    // UPDATE QUALIFICATION
+   
+    if ($request->qualification) {
+        Qualification::where('userid', $userId)->delete();
+
+        foreach ($request->qualification as $q) {
+            Qualification::create([
+                'userid' => $userId,
+                'qualification_name' => $q
+            ]);
+        }
+    }
+
+    // ---------------------------------------
+    // UPDATE EXPERIENCE
+    // ---------------------------------------
+    if ($request->experience) {
+        Experience::where('userid', $userId)->delete();
+
+        foreach ($request->experience as $e) {
+            Experience::create([
+                'userid' => $userId,
+                'experience_name' => $e
+            ]);
+        }
+    }
+
+    return back()->with('success', 'Profile updated successfully!');
+}
+public function adminDashboard()
+{
+   $employees = User::with('qualification')->get();
+
+    return view('admin_dashboard', compact('employees'));
+}
+
+public function viewEmployee($id)
+{
+    $employee = User::with(['qualification', 'address', 'experience'])->find($id);
+
+    if (!$employee) {
+        abort(404, "Employee not found");
+    }
+
+    return view('emp-profile', ['user' => $employee]);
+
+
+}
+
+
 }
 

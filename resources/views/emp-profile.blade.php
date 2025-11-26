@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    @vite(['resources/js/app.js'])
+  @vite(['resources/js/app.js'])
 
 
 </head>
@@ -33,7 +33,7 @@
 
 
         <div class = "edit-wrapper" style="position:relative;">
-            {{-- <h2></h2> --}}
+           
             <input type="text" id="nameInput" name="name" value="{{ $user?->name }}"
                 style="border:none; background-color:transparent; font-weight:600; font-size:18px; text-align:center; outline-style:none;"
                 readonly>
@@ -43,14 +43,20 @@
 
         </div>
         <p>{{ $user?->email }}</p>
+        @php
+            $dob = $user?->dob ? \Carbon\Carbon::parse($user->dob)->format('d M Y') : '';
+       @endphp
+
         <div class="edit-wrapper" style="position:relative;">
-            DOB - 
-            <input type="text" id="DobInput" name="dob" value="6 Jun 2006"
-                style="border:none; background-color:transparent; font-weight:600; font-size:18px; outline-style:none; max-width:130px;">
-            <label for="nameInput" class="edit-icon" style="margin:-15px 0px 0px 0px;">
+            DOB -
+            <input type="text" id="DobInput" name="dob"value="{{ $dob }}"
+            style="border:none; background-color:transparent; font-weight:600; font-size:18px; outline-style:none; max-width:130px;"
+            readonly>
+            <label for="DobInput" class="edit-icon" style="margin:-15px 0px 0px 0px;">
                 <i class="fa-solid fa-pen" style="color:gray" id="edit-icon-date"></i>
             </label>
         </div>
+
 
         {{-- qualification and experiences --}}
 
@@ -67,8 +73,11 @@
                     </div>
                 @endforeach
 
-
-            </div>
+                    <div class="qual-btn-group">
+                        <button type="button" id="add-qual-btn">Add Qualification</button>
+                        <button type="button" id="remove-qual-btn">remove</button>
+                    </div>
+             </div>
 
 
             <div>
@@ -81,6 +90,10 @@
                         <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
                     </div>
                 @endforeach
+                <div class="exp-btn-group">
+                    <button type="button" id="add-exp-btn">Add Experience</button>
+                    <button type="button" id="remove-exp-btn">remove</button>
+                </div>
             </div>
         </div>
 

@@ -133,9 +133,9 @@ $("#profileInput").on("change", function () {
     reader.readAsDataURL(this.files[0]);
 });
 
-// Choose one regex:
-  const reStrong = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/; // strong
-  const strong = reStrong; // pick your desired rule
+
+  const reStrong = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/; 
+  const strong = reStrong; 
 
   $("#password").on('input',function(){
     const val=$(this).val();
@@ -147,12 +147,12 @@ $("#profileInput").on("change", function () {
 $(document).on("click", ".edit-icon", function () {
     let input = $(this).siblings("input");
 
-    // Agar ye DOB wala input hai
+    
     if (input.attr("id") === "DobInput") {
-        // Agar abhi text hai -> date me convert karo
+        
         if (input.attr("type") === "text") {
             let dateObj = new Date(input.val());
-            let isoDate = dateObj.toISOString().split("T")[0]; // "2006-06-06"
+            let isoDate = dateObj.toISOString().split("T")[0]; 
 
             input.attr("type", "date");
             input.prop("readonly", false);
@@ -160,7 +160,7 @@ $(document).on("click", ".edit-icon", function () {
             // input.css("outline-style", "solid");
             input.focus();
         } else {
-            // Agar abhi date hai -> wapas text me convert karo
+        
             let dateObj = new Date(input.val());
             let formatted = ("0" + dateObj.getDate()).slice(-2) + " " +
                             dateObj.toLocaleString("default", { month: "short" }) + " " +
@@ -172,10 +172,10 @@ $(document).on("click", ".edit-icon", function () {
             input.css("border", "none");
         }
     } else {
-        // Normal text inputs ke liye simple toggle
+       
         if (input.prop("readonly")) {
             input.prop("readonly", false);
-            // input.css("outline-style", "solid");
+            
             input.focus();
         } else {
             input.prop("readonly", true);

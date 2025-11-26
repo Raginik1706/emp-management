@@ -28,3 +28,8 @@ Route::get('/logout', [Authentication::class , 'logout'])->name('logout');
 Route::post('/employee/update', [Authentication::class, 'updateProfile'])->name('employee.update');
 
 
+
+Route::get('/adminDashboard', [authentication::class, 'adminDashboard'])->name('admin_dashboard');
+
+Route::get('/employee/view/{id}', [authentication::class, 'viewEmployee'])->name('employee.view');
+
