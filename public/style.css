@@ -176,7 +176,7 @@ button a {
 }
 
 
-#add-qual-btn , #add-exp-btn{
+#add-qual-btn , #add-exp-btn, #add-update-qual-btn, #add-update-exp-btn  {
   color: black;
   background-color:transparent;
   font-weight: 600;
@@ -190,7 +190,7 @@ button a {
   cursor: pointer;
 }
 
-#remove-qual-btn , #remove-exp-btn{
+#remove-qual-btn , #remove-exp-btn, #remove-update-qual-btn, #remove-update-exp-btn{
   color: black;
   background-color:transparent;
   font-weight: 600;

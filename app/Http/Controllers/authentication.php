@@ -10,6 +10,7 @@ use App\Models\Address;
 use App\Models\Qualification;
 use App\Models\Experience;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 class authentication extends Controller
@@ -193,101 +194,6 @@ class authentication extends Controller
    }
 
 
-   // ------- update profile methods -------------
-
-   // public function updateProfile(Request $request)
-   //  {
-   //       $userId = $request->session()->get('userid');
-   //       dd($userId );
-   //       if (!$userId ) {
-   //              return redirect()->back()->with('error', 'Not authenticated');
-   //       }
-       
-   //  }
-
-  public function updateProfile(Request $request)
-{
-    // Get logged in user ID using session
-    $userId = session('userid');
-
-    if (!$userId) {
-        return back()->with('error', 'User is not logged in!');
-    }
-
-    $user = User::find($userId);
-
-    // ---- Update NAME ----
-    if ($request->filled('name')) {
-        $user->name = $request->name;
-    }
-
-    // ---- Update DOB ----
-    if ($request->filled('dob')) {
-        $user->dob = date('Y-m-d', strtotime($request->dob));
-        $user->age = \Carbon\Carbon::parse($user->dob)->age;
-    }
-
-    // ---- Update Profile Image ----
-    if ($request->hasFile('profile')) {
-        $img = $request->file('profile');
-        $imgName = time().'_'.$img->getClientOriginalName();
-        $img->move(public_path('profileImages'), $imgName);
-
-        $user->profile = $imgName;
-    }
-
-    // SAVE BASIC DETAILS
-    $user->save();
-
-
-    
-    // UPDATE ADDRESS
-    
-    $address = Address::where('userid', $userId)->first();
-
-    if ($address) {
-        $address->per_address = $request->p_line1 . '||' . $request->p_line2;
-        $address->curr_address = $request->c_line1 . '||' . $request->c_line2;
-
-        $address->per_city = $request->p_city;
-        $address->per_state = $request->p_state;
-
-        $address->curr_city = $request->c_city;
-        $address->curr_state = $request->c_state;
-
-        $address->save();
-    }
-
-    
-    // UPDATE QUALIFICATION
-   
-    if ($request->qualification) {
-        Qualification::where('userid', $userId)->delete();
-
-        foreach ($request->qualification as $q) {
-            Qualification::create([
-                'userid' => $userId,
-                'qualification_name' => $q
-            ]);
-        }
-    }
-
-    // ---------------------------------------
-    // UPDATE EXPERIENCE
-    // ---------------------------------------
-    if ($request->experience) {
-        Experience::where('userid', $userId)->delete();
-
-        foreach ($request->experience as $e) {
-            Experience::create([
-                'userid' => $userId,
-                'experience_name' => $e
-            ]);
-        }
-    }
-
-    return back()->with('success', 'Profile updated successfully!');
-}
 public function adminDashboard()
 {
    $employees = User::with('qualification')->get();
@@ -307,6 +213,155 @@ public function viewEmployee($id)
 
 
 }
+
+
+public function updateProfile(Request $request)
+{
+
+   
+
+    $request->validate([
+        'name' => 'required|max:255',
+        'dob' => 'required|date|before:today',
+        'profile' => 'nullable|image|mimes:jpeg,png,jpg',
+
+        'p_line1' => 'required',
+        'p_city' => 'required',
+        'p_state' => 'required',
+
+        'c_line1' => 'required',
+        'c_city' => 'required',
+        'c_state' => 'required',
+
+        'qualification' => 'required|array',
+        'qualification.*' => 'required|string',
+
+        'qualification_id' => 'array',
+        'qualification_id.*' => 'nullable|integer',
+
+        'experience' => 'required|array',
+        'experience.*' => 'required|string',
+
+        'experience_id' => 'array',
+        'experience_id.*' => 'nullable|integer',
+    ]);
+
+   //  dd($request->all());
+
+
+   Log::info("Validation Successed");
+    
+
+    try {
+        DB::beginTransaction();
+
+        $user = User::findOrFail($request->userId);
+        Log::info("User Finded Data",$user->toArray());
+
+
+        // ======================================
+        // 1. PROFILE IMAGE UPDATE
+        // ======================================
+        $profileName = $user->profile;
+
+        if ($request->hasFile('profile')) {
+
+            // Delete old file
+            if ($profileName && file_exists(public_path("profileImages/" . $profileName))) {
+                unlink(public_path("profileImages/" . $profileName));
+            }
+
+            $imgFile = $request->file('profile');
+            $profileName = time() . '_' . $imgFile->getClientOriginalName();
+            $imgFile->move(public_path('profileImages'), $profileName);
+        }
+
+        // ======================================
+        // 2. UPDATE USER TABLE
+        // ======================================
+        $user->update([
+            'name' => $request->name,
+            'dob' => $request->dob,
+            'age' => Carbon::parse($request->dob)->age,
+            'profile' => $profileName,
+        ]);
+
+        // ======================================
+        // 3. UPDATE ADDRESS
+        // ======================================
+        $permanent_address = $request->p_line1 . '||' . ($request->p_line2 ?? '');
+        $current_address = $request->c_line1 . '||' . ($request->c_line2 ?? '');
+
+        $user->address->update([
+            'per_address' => $permanent_address,
+            'per_city' => $request->p_city,
+            'per_state' => $request->p_state,
+            'curr_address' => $current_address,
+            'curr_city' => $request->c_city,
+            'curr_state' => $request->c_state,
+        ]);
+        Log::info("User Updated Successed");
+
+
+        // ======================================
+        // 4. QUALIFICATIONS UPDATE
+        // ======================================
+        foreach ($request->qualification as $index => $qname) {
+
+            $qid = $request->qualification_id[$index] ?? null;
+
+            if ($qid) {
+                // update existing
+                Qualification::where('id', $qid)->where('userid', $user->id)
+                    ->update(['qualification_name' => $qname]);
+            } else {
+                // create new
+                Qualification::create([
+                    'userid' => $user->id,
+                    'qualification_name' => $qname,
+                ]);
+            }
+        }
+        Log::info("Qualification Updated Successed");
+
+
+        // ======================================
+        // 5. EXPERIENCE UPDATE
+        // ======================================
+        foreach ($request->experience as $index => $ename) {
+
+            $eid = $request->experience_id[$index] ?? null;
+            Log::info("Experience"." ".$ename);
+
+            if ($eid) {
+                // update existing
+                Experience::where('id', $eid)->where('userid', $user->id)
+                    ->update(['experience_name' => $ename]);
+            } else {
+                // new record
+                Experience::create([
+                    'userid' => $user->id,
+                    'experience_name' => $ename,
+                ]);
+            }
+        }
+        Log::info("Experience Updated Successed");
+
+
+        DB::commit();
+        Log::info("Profile Updated Success full");
+        return redirect()->route('profile')->with('success', 'Profile updated successfully!');
+
+
+    } catch (Exception $e) {
+        DB::rollBack();
+        Log::error("Update-Failed",[
+          'error'=>$e->getMessage()
+        ]);
+        return back()->withErrors(['error' => $e->getMessage()]);
+    }
+}
+
 
 
 }

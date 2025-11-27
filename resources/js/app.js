@@ -81,6 +81,50 @@ $('#remove-qual-btn').on('click', function () {
     }
 });
 
+// -------------- Update Add Qualification field --------------------
+$('#add-update-qual-btn').on('click', function () {
+    $(".insert-wrapper").show();
+    $('.insert-wrapper').append(`
+        <div class="updatable" style="padding: 0px">
+            <input type="hidden" name="qualification_id[]" value="">
+            <input type="text" name="qualification[]" value=""
+                style="border:none; background-color:transparent; font-size:16px; outline-style:none; padding:2px 4px"
+                 />
+            <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
+        </div>
+    `);
+
+    // show remove button if more than 1 field
+    if ($('.insert-wrapper .updatable').length >= 1) {
+        $('#remove-update-qual-btn').show();
+    }
+});
+
+
+
+// REMOVE QUALIFICATION 
+$('#remove-update-qual-btn').on('click', function () {
+
+    let count = $('.insert-wrapper .updatable').length;
+
+    if (count >= 1) {
+        $('.insert-wrapper .updatable').last().remove();
+
+    }
+
+    if ($('.insert-wrapper .updatable').length <= 0) {
+        $(".insert-wrapper").hide();
+        $('#remove-update-qual-btn').hide();
+    }
+});
+
+
+// -------------- Update Add Qualification field --------------------
+
+
+
+
+
 /*  add experinces or remove*/
 
 
@@ -121,6 +165,46 @@ $('#remove-exp-btn').on('click', function () {
         $('#remove-exp-btn').hide();
     }
 });
+
+
+// -------------- Update add - experience ------------
+$('#add-update-exp-btn').on('click', function () {
+    $(".insert-exp-wrapper").show();
+    $('.insert-exp-wrapper').append(`
+        <div class="updatable" style="padding: 0px">
+           <input type="hidden" name="experience_id[]" value="">
+            <input type="text" name="experience[]" value=""
+                style="border:none; background-color:transparent; font-size:16px; outline-style:none; padding:2px 4px"
+                 />
+            <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
+        </div>
+    `);
+
+    // show remove button if more than 1 field
+    if ($('.insert-exp-wrapper .updatable').length >=1) {
+        $('#remove-update-exp-btn').show();
+    }
+});
+
+
+// REMOVE Experience
+$('#remove-update-exp-btn').on('click', function () {
+
+    let count = $('.insert-exp-wrapper .updatable').length;
+
+    if (count >= 1) {
+        $('.insert-exp-wrapper .updatable').last().remove();
+
+    }
+
+    if ($('.insert-exp-wrapper .updatable').length <= 0) {
+        $(".insert-exp-wrapper").hide();
+        $('#remove-update-exp-btn').hide();
+    }   
+});
+
+// -------------- Update add - experience ------------
+
 
 // profile edit section
 $("#profileInput").on("change", function () {
@@ -183,6 +267,21 @@ $(document).on("click", ".edit-icon", function () {
         }
     }
 });
+
+$("#emp-form").on("submit", function () {
+
+    let dobInput = $("#DobInput");
+
+    // अगर input अभी भी formatted mode में है (text mode)
+    if (dobInput.attr("type") === "text") {
+
+        let dateObj = new Date(dobInput.val());
+        let isoDate = dateObj.toISOString().split("T")[0]; // yyyy-mm-dd
+
+        dobInput.val(isoDate);
+    }
+});
+
 
 
 

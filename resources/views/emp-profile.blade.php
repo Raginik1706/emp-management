@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <form class="container emp-container" action="{{route('employee.update')}}" method="POST" enctype="multipart/form-data">
+    <form class="container emp-container" action="{{route('employee.update')}}" method="POST" enctype="multipart/form-data" id="emp-form">
         @csrf
         <h2>Employee Profile</h2>
         <div class="profile-section">
@@ -31,6 +31,8 @@
 
         </div>
 
+        <input type="hidden" name="userId" value="{{ session('userid')}}">
+
 
         <div class = "edit-wrapper" style="position:relative;">
            
@@ -40,8 +42,11 @@
             <label for="nameInput" class="edit-icon" style="margin:-15px 0px 0px 0px;">
                 <i class="fa-solid fa-pen" style="color:gray"></i>
             </label>
-
+            <br/>
         </div>
+         @error('name')
+            <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+         @enderror
         <p>{{ $user?->email }}</p>
         @php
             $dob = $user?->dob ? \Carbon\Carbon::parse($user->dob)->format('d M Y') : '';
@@ -56,6 +61,9 @@
                 <i class="fa-solid fa-pen" style="color:gray" id="edit-icon-date"></i>
             </label>
         </div>
+                 @error('dob')
+            <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+         @enderror
 
 
         {{-- qualification and experiences --}}
@@ -65,17 +73,26 @@
             <div>
                 <p><b>Qualifications</b></p>
                 @foreach ($user?->qualification as $item)
-                    <div class="editable">
+                    <div class="editable" style="padding:0px 4px">
+                        <!-- Hidden ID -->
+                        <input type="hidden" name="qualification_id[]" value="{{ $item->id }}">
+
                         <input type="text" name="qualification[]" value="{{ $item->qualification_name }}"
                             style="border:none; background-color:transparent; font-size:16px; outline-style:none; padding:5px 2px"
                             readonly />
                         <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
                     </div>
                 @endforeach
+                @error('qualification.*')
+                    <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                @enderror
 
-                    <div class="qual-btn-group">
-                        <button type="button" id="add-qual-btn">Add Qualification</button>
-                        <button type="button" id="remove-qual-btn">remove</button>
+                   <div class="insert-wrapper" style="display:none; gap:10px; flex-direction:column; background:transparent;padding:0px;">
+                    </div>
+
+                    <div class="qual-btn-group" style="background: transparent;">
+                        <button type="button" id="add-update-qual-btn" style="text-align:left; padding:0px 8px">Add Qualification</button>
+                        <button type="button" id="remove-update-qual-btn" style="text-align:left; padding:0px 8px">remove</button>
                     </div>
              </div>
 
@@ -84,15 +101,21 @@
                 <p><b>Experiences</b></p>
                 @foreach ($user?->experience as $item)
                     <div class="editable">
+                        <input type="hidden" name="experience_id[]" value="{{ $item->id }}">
                         <input type="text" name="experience[]" value="{{ $item->experience_name }}"
                             style="border:none; background-color:transparent; font-size:16px; outline-style:none; padding:5px 2px"
                             readonly />
                         <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
                     </div>
                 @endforeach
-                <div class="exp-btn-group">
-                    <button type="button" id="add-exp-btn">Add Experience</button>
-                    <button type="button" id="remove-exp-btn">remove</button>
+                @error('experience.*')
+                    <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                @enderror
+                <div class="insert-exp-wrapper" style="display:none; gap:10px; flex-direction:column; background:transparent;padding:0px;">
+                </div>
+                <div class="exp-btn-group" style="background: transparent;">
+                    <button type="button" id="add-update-exp-btn" style="text-align:left; padding:0px 8px">Add Experience</button>
+                    <button type="button" id="remove-update-exp-btn" style="text-align:left; padding:0px 8px">remove</button>
                 </div>
             </div>
         </div>
@@ -112,6 +135,9 @@
                             readonly />
                     <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
                 </div>
+                @error('c_line1')
+                    <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                @enderror
                 <div class="editable">
                     <input type="text" name="c_line2" value="{{ $current[1] ?? 'N/A' }}"
                             style="border:none; background-color:transparent; font-size:16px; outline-style:none; padding:2px 2px"
@@ -124,12 +150,18 @@
                             readonly />
                     <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
                 </div>
+                 @error('c_city')
+                    <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                @enderror
                 <div class="editable">
                     <input type="text" name="c_state" value="{{ $user->address->curr_state ?? 'N/A' }}"
                             style="border:none; background-color:transparent; font-size:16px; outline-style:none; padding:2px 2px"
                             readonly />
                     <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
                 </div>
+                 @error('c_state')
+                    <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                @enderror
             </div>
 
             <div>
@@ -143,6 +175,9 @@
                             readonly />
                     <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
                 </div>
+                @error('p_line1')
+                    <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                @enderror
                 <div class="editable">
                     <input type="text" name="p_line2" value="{{ $permanent[1] ?? 'N/A' }}"
                             style="border:none; background-color:transparent; font-size:16px; outline-style:none; padding:2px 2px"
@@ -155,12 +190,18 @@
                             readonly />
                     <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
                 </div>
+                 @error('p_city')
+                    <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                @enderror
                 <div class="editable">
                     <input type="text" name="p_state" value="{{ $user->address->per_state ?? 'N/A' }}"
                             style="border:none; background-color:transparent; font-size:16px; outline-style:none; padding:2px 2px"
                             readonly />
                     <label class="edit-icon"><i class="fa-solid fa-pen"></i></label>
                 </div>
+                @error('p_state')
+                    <span style="color:red; font-weight:600; font-size:13px; margin-top:-10px">{{ $message }}</span>
+                @enderror
             </div>
         </div>
         <div>
