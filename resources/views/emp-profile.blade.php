@@ -63,7 +63,7 @@
         <div class="edit-wrapper" style="position:relative;">
             DOB -
             <input type="text" id="DobInput" name="dob"value="{{ $dob }}"
-            style="border:none; background-color:transparent; font-weight:600; font-size:18px; outline-style:none; max-width:130px;"
+            style="border:none; background-color:transparent; font-weight:600; font-size:18px; outline-style:none; max-width:135px;"
             readonly>
             <label for="DobInput" class="edit-icon" style="margin:-15px 0px 0px 0px;">
                 <i class="fa-solid fa-pen" style="color:gray" id="edit-icon-date"></i>
@@ -135,7 +135,6 @@
                     $current = explode('||', $user->address?->curr_address ?? '');
                 @endphp
 
-                {{-- <div>{{ $current[0] ?? 'N/A' }}</div> --}}
                 
                 <div class="editable">
                     <input type="text" name="c_line1" value="{{ $current[0] ?? 'N/A' }}"

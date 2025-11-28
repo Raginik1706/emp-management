@@ -257,7 +257,6 @@ $(document).on("click", ".edit-icon", function () {
             input.attr("type", "date");
             input.prop("readonly", false);
             input.val(isoDate);
-            // input.css("outline-style", "solid");
             input.focus();
         } else {
         
@@ -287,12 +286,10 @@ $(document).on("click", ".edit-icon", function () {
 $("#emp-form").on("submit", function () {
 
     let dobInput = $("#DobInput");
-
-    // अगर input अभी भी formatted mode में है (text mode)
     if (dobInput.attr("type") === "text") {
 
         let dateObj = new Date(dobInput.val());
-        let isoDate = dateObj.toISOString().split("T")[0]; // yyyy-mm-dd
+        let isoDate = dateObj.toISOString().split("T")[0]; 
 
         dobInput.val(isoDate);
     }
@@ -301,9 +298,7 @@ $("#emp-form").on("submit", function () {
 
 
 
-// =============================================================================================
-// ==================================  Ajext Request code ======================================
-// =============================================================================================
+            //Ajax code----------
 
 $("#registerForm").on("submit", function (e) {
     e.preventDefault();
@@ -362,7 +357,7 @@ $("#registerForm").on("submit", function (e) {
 
 
 
-// ------------ Login Aject ----------
+// ------------ Login Ajax ----------
 
 $("#loginForm").on("submit", function (e) {
     e.preventDefault();
@@ -421,7 +416,63 @@ $("#loginForm").on("submit", function (e) {
     });
 });
 
+// admin login code---
+$("#admin-form").on("submit", function (e) {
+    e.preventDefault();
 
+    let formData = new FormData(this);
+
+    $.ajax({
+        url: '/empLogin',
+        type: 'POST',
+        data: formData,
+        processData: false,   
+        contentType: false,   
+
+        beforeSend: function () {
+            Swal.fire({
+                title: 'Checking...',
+                text: 'Please wait',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+        },
+
+        success: function (res) {
+            Swal.fire({
+                icon: "success",
+                title: "Login Successful",
+                text: res.message,
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            setTimeout(() => {
+                window.location.href = res.redirect;
+            }, 1500);
+        },
+
+        error: function (xhr) {
+            Swal.close();
+
+            if (xhr.status === 422) {
+                let err = xhr.responseJSON;
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Login Failed",
+                    text: err.message
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Server Error",
+                    text: "Something went wrong."
+                });
+            }
+        }
+    });
+});
 
 // --------------------- Logout Aject Code -------------------
 
@@ -502,8 +553,6 @@ $("#emp-form").on("submit", function (e) {
         });
         return; // AJAX abort
     }
-
-    // If changes found → AJAX call run karega
     updateProfileAjax();
 });
 
