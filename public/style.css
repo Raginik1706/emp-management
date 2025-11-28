@@ -280,7 +280,7 @@ button a {
 }
 
 .box1 {
-  width: 90%;        /* IMPORTANT */
+  width: 90%;       
   display: flex;
   justify-content: space-between;
   gap: 30px;
@@ -387,8 +387,8 @@ button a {
 .logout {
     font-size: 16px;
     color: #2f78ff;
-    text-decoration: none;
     font-weight: 500;
+    background-color: transparent;
 }
 
 /* Table Styling */
@@ -426,4 +426,238 @@ td {
 
 .view-btn:hover {
     text-decoration: underline;
+}
+
+/* ===== Responsive CSS ===== */
+
+
+/* Medium devices (tablets) */
+@media (max-width: 992px) {
+    body {
+        padding: 10px;
+    }
+
+   
+    .login-container,
+    .container,
+    .emp-container,
+    .page-container {
+        width: 95%;
+        height: auto;
+        padding: 20px;
+    }
+
+  
+    form {
+        width: 90%;
+        padding: 30px;
+    }
+
+   
+    .password-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .password-section input {
+        width: 100%;
+    }
+
+  
+    .locality {
+        flex-direction: column;
+    }
+    .locality div {
+        width: 100%;
+    }
+
+   
+    .box1 {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .box1 > div {
+        width: 100%;
+        min-width: auto;
+    }
+
+   
+    .profile-wrapper {
+        width: 120px;
+        height: 120px;
+    }
+    .profile-wrapper img {
+        width: 100%;
+        height: 100%;
+    }
+
+    
+    .edit-wrapper input {
+        font-size: 16px;
+    }
+
+   
+    .qual-btn-group,
+    .exp-btn-group {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .edit-icon {
+        right: 5px;
+        top: 5px;
+    }
+
+    button {
+        width: 100%;
+        font-size: 14px;
+        padding: 8px 0;
+    }
+
+  
+    .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .header-row h2 {
+        font-size: 24px;
+    }
+    .admin-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .table-wrapper {
+        overflow-x: auto;
+    }
+    table {
+        width: 100%;
+        font-size: 14px;
+    }
+    th, td {
+        padding: 10px 8px;
+    }
+    .view-btn {
+        font-size: 14px;
+    }
+}
+
+/* Small devices (mobile phones) */
+@media (max-width: 576px) {
+    body {
+        padding: 5px;
+    }
+
+   
+    .login-container,
+    .container,
+    .emp-container,
+    .page-container {
+        width: 100%;
+        gap: 30px;
+        padding: 15px;
+    }
+
+    
+    form {
+        width: 100%;
+        padding: 20px;
+        gap: 15px;
+    }
+
+   
+    #profile-upload-btn,
+    #profile-remove-btn {
+        width: 100%;
+        height: 40px;
+        font-size: 14px;
+    }
+
+   
+    .profile-wrapper {
+        width: 100px;
+        height: 100px;
+    }
+    .profile-section {
+        margin-bottom: 20px;
+    }
+
+   
+    .edit-wrapper input,
+    #nameInput,
+    #DobInput {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    
+    .box1 {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px;
+        width: 100%;
+    }
+    .box1 > div {
+        width: 100%;
+        min-width: 100%;
+    }
+    .box1 div p {
+        font-size: 14px;
+    }
+    .editable input {
+        font-size: 14px;
+        padding: 3px;
+    }
+
+    .edit-icon {
+        right: 3px;
+        top: 3px;
+    }
+
+    
+    .qual-btn-group button,
+    .exp-btn-group button {
+        width: 100%;
+        font-size: 12px;
+        text-align: left;
+        padding: 5px 0;
+    }
+
+    
+    #logoutBtn {
+        width: 80px;
+        height: 28px;
+        font-size: 12px;
+        padding: 2px 5px;
+    }
+
+    
+    h2 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+   
+    .header-row h2 {
+        font-size: 20px;
+    }
+    table {
+        width: 100%;
+        font-size: 12px;
+    }
+    th, td {
+        padding: 8px 5px;
+    }
+    .view-btn {
+        font-size: 12px;
+        padding: 3px 6px;
+    }
+    .admin-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    .table-wrapper {
+        overflow-x: auto;
+    }
 }

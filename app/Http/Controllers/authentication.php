@@ -87,19 +87,6 @@ class authentication extends Controller
             'age' => Carbon::parse($request->dob)->age,
          ]);
 
-         $permanent_address = $request->p_line1 . '||' . $request->p_line2;
-         $current_address = $request->c_line1 . '||' . $request->c_line2;
-
-         Address::create([
-            'userid' => $user->id,
-            'per_address' => $permanent_address,
-            'per_city' => $request->p_city,
-            'per_state' => $request->p_state,
-            'curr_address' => $current_address,
-            'curr_city' => $request->c_city,
-            'curr_state' => $request->c_state
-         ]);
-
          if ($request->filled('qualification_name')) {
             foreach ($request->qualification_name as $qual) {
                Qualification::create([
@@ -117,9 +104,25 @@ class authentication extends Controller
                ]);
             }
          }
+         $permanent_address = $request->p_line1 . '||' . $request->p_line2;
+         $current_address = $request->c_line1 . '||' . $request->c_line2;
+
+         Address::create([
+            'userid' => $user->id,
+            'per_address' => $permanent_address,
+            'per_city' => $request->p_city,
+            'per_state' => $request->p_state,
+            'curr_address' => $current_address,
+            'curr_city' => $request->c_city,
+            'curr_state' => $request->c_state
+         ]);
+
 
          DB::commit();
-         return redirect()->route('login');
+         return response()->json([
+            'status' => true,
+            'message' => 'Registration successful!',
+         ], 200);
 
       } catch (Exception $e) {
          DB::rollBack();
@@ -139,25 +142,36 @@ class authentication extends Controller
       ]);
 
       $user = User::where('email', $request->email)->first();
-
+      
+      
       if (!$user) {
-         return back()->withErrors(['email' => 'invalid email']);
-      }
+         return response()->json([
+            'status' => false,
+            'field' => 'email',
+            'message' => 'Invalid email'
+        ], 422);
+    }
 
       if (!Hash::check($request->password, $user->password)) {
-         return back()->withErrors(['password' => 'invalid password']);
-      }
+        return response()->json([
+            'status' => false,
+            'field' => 'password',
+            'message' => 'Invalid password'
+        ], 422);
+     }
 
       session([
          'userid' => $user->id,
          'name' => $user->name
       ]);
+      $redirect = ($user->userType == 0) ? route('admin_dashboard') : route('profile');
 
-      if ($user->userType == 0) {
-         return redirect()->route('admin_dashboard');
-      } else {
-         return redirect()->route('profile');
-      }
+
+      return response()->json([
+        'status' => true,
+        'message' => 'Login successful',
+        'redirect' => $redirect
+      ], 200);
    }
 
 
@@ -185,13 +199,28 @@ class authentication extends Controller
       return view('admin_dashboard');
    }
 
-
-   // logout
    public function logout()
    {
-      session()->flush();
-      return redirect('/login');
+      try {
+         session()->flush();
+
+         return response()->json([
+               'status' => true,
+               'message' => 'Logged out successfully',
+               'redirect' => '/login'
+         ], 200);
+
+      } catch (\Exception $e) {
+
+         return response()->json([
+               'status' => false,
+               'message' => 'Server error occurred.',
+               'error' => $e->getMessage()
+         ], 500);
+      }
    }
+
+
 
 
 public function adminDashboard()
@@ -246,19 +275,13 @@ public function updateProfile(Request $request)
         'experience_id.*' => 'nullable|integer',
     ],
    [
-      
-         'p_line1.required' => 'Permanent address is required',
-         'c_line1.required' => 'Current address is required',
 
-         'p_city.required' => 'City is Required',
-         'p_state.required' => 'State is Required',
-         'c_city.required' => 'City is Required',
-         'c_state.required' => 'State is Required',
-
+       
+         'qualification.*.required' => 'Qualification field cannot be empty.',
+         'experience.*.required' => 'Experience field cannot be empty.',
    ]);
 
-   //  dd($request->all());
-
+     
 
    Log::info("Validation Successed");
     
@@ -270,14 +293,14 @@ public function updateProfile(Request $request)
         Log::info("User Finded Data",$user->toArray());
 
 
-        // ======================================
-        // 1. PROFILE IMAGE UPDATE
-        // ======================================
+       
+      // PROFILE IMAGE UPDATE
+     
         $profileName = $user->profile;
 
         if ($request->hasFile('profile')) {
 
-            // Delete old file
+           
             if ($profileName && file_exists(public_path("profileImages/" . $profileName))) {
                 unlink(public_path("profileImages/" . $profileName));
             }
@@ -287,9 +310,9 @@ public function updateProfile(Request $request)
             $imgFile->move(public_path('profileImages'), $profileName);
         }
 
-        // ======================================
-        // 2. UPDATE USER TABLE
-        // ======================================
+        
+        //  UPDATE USER TABLE
+       
         $user->update([
             'name' => $request->name,
             'dob' => $request->dob,
@@ -297,9 +320,9 @@ public function updateProfile(Request $request)
             'profile' => $profileName,
         ]);
 
-        // ======================================
-        // 3. UPDATE ADDRESS
-        // ======================================
+        
+        //  UPDATE ADDRESS
+     
         $permanent_address = $request->p_line1 . '||' . ($request->p_line2 ?? '');
         $current_address = $request->c_line1 . '||' . ($request->c_line2 ?? '');
 
@@ -314,9 +337,9 @@ public function updateProfile(Request $request)
         Log::info("User Updated Successed");
 
 
-        // ======================================
-        // 4. QUALIFICATIONS UPDATE
-        // ======================================
+       
+        //  QUALIFICATIONS UPDATE
+      
         foreach ($request->qualification as $index => $qname) {
 
             $qid = $request->qualification_id[$index] ?? null;
@@ -336,9 +359,9 @@ public function updateProfile(Request $request)
         Log::info("Qualification Updated Successed");
 
 
-        // ======================================
-        // 5. EXPERIENCE UPDATE
-        // ======================================
+        
+        //  EXPERIENCE UPDATE
+       
         foreach ($request->experience as $index => $ename) {
 
             $eid = $request->experience_id[$index] ?? null;
@@ -361,7 +384,12 @@ public function updateProfile(Request $request)
 
         DB::commit();
         Log::info("Profile Updated Success full");
-        return redirect()->route('profile')->with('success', 'Profile updated successfully!');
+     
+      return response()->json([
+         'status' => true,
+         'message' => 'Profile updated successfully',
+         'redirect' => route('profile')
+      ], 200);
 
 
     } catch (Exception $e) {
@@ -369,7 +397,11 @@ public function updateProfile(Request $request)
         Log::error("Update-Failed",[
           'error'=>$e->getMessage()
         ]);
-        return back()->withErrors(['error' => $e->getMessage()]);
+        return response()->json([
+            'status' => false,
+            'message' => 'Server Error',
+            'error' => $e->getMessage()
+        ], 500);
     }
 }
 

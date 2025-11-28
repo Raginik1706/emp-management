@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdminPage</title>
     <link rel="stylesheet" href="{{asset('style.css')}}">
+     @vite(['resources/js/app.js'])
 </head>
 
 <body>
 
     <div class=" login-container ">
         <h2>Admin Login</h2>
-        <form action="/empLogin" method="POST">
+        <form id="admin-form">
             @csrf
            <div>
                <label for="">Email Address</label>
