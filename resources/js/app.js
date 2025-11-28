@@ -474,7 +474,7 @@ $("#admin-form").on("submit", function (e) {
     });
 });
 
-// --------------------- Logout Aject Code -------------------
+// --------------------- Logout Ajax Code -------------------
 
 $("#logoutBtn").on("click", function () {
 
@@ -521,7 +521,7 @@ $("#logoutBtn").on("click", function () {
 
 
 
-// ------------------------ Profile Update Aject -----------------------
+// ------------------------ Profile Update Ajax -----------------------
 
 
 

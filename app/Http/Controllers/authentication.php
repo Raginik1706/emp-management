@@ -243,11 +243,8 @@ public function viewEmployee($id)
 
 }
 
-
 public function updateProfile(Request $request)
 {
-
-   
 
     $request->validate([
         'name' => 'required|max:255',
@@ -276,8 +273,7 @@ public function updateProfile(Request $request)
     ],
    [
 
-       
-         'qualification.*.required' => 'Qualification field cannot be empty.',
+       'qualification.*.required' => 'Qualification field cannot be empty.',
          'experience.*.required' => 'Experience field cannot be empty.',
    ]);
 
@@ -358,9 +354,7 @@ public function updateProfile(Request $request)
         }
         Log::info("Qualification Updated Successed");
 
-
-        
-        //  EXPERIENCE UPDATE
+      //  EXPERIENCE UPDATE
        
         foreach ($request->experience as $index => $ename) {
 
