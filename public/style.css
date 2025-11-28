@@ -73,6 +73,7 @@ body {
     align-items: center;
 }
 
+
 form {
     width: 60%;
     background-color: #FFFFFF;
@@ -351,17 +352,7 @@ button a {
 
 
 
-/* ---- profile picture upload css -----  */
 
-#profile-remove-btn{
-    width: 130px;
-    height: 30px;
-    border: 2px solid #ee0000;
-    border-radius: 6px;
-    color: #ff0000;
-    margin-top: 8px;
-    background-color: white
-}
 
 /* css code for admin dashboard page */
 

@@ -275,10 +275,13 @@ public function updateProfile(Request $request)
         'experience_id.*' => 'nullable|integer',
     ],
    [
+
        
          'qualification.*.required' => 'Qualification field cannot be empty.',
          'experience.*.required' => 'Experience field cannot be empty.',
    ]);
+
+     
 
    Log::info("Validation Successed");
     
