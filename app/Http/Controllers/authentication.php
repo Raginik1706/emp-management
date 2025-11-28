@@ -244,7 +244,18 @@ public function updateProfile(Request $request)
 
         'experience_id' => 'array',
         'experience_id.*' => 'nullable|integer',
-    ]);
+    ],
+   [
+      
+         'p_line1.required' => 'Permanent address is required',
+         'c_line1.required' => 'Current address is required',
+
+         'p_city.required' => 'City is Required',
+         'p_state.required' => 'State is Required',
+         'c_city.required' => 'City is Required',
+         'c_state.required' => 'State is Required',
+
+   ]);
 
    //  dd($request->all());
 
