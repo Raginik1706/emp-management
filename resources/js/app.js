@@ -4,6 +4,22 @@ import $ from 'jquery';
 window.$ = $;
 window.jQuery = $;
 
+import Swal from 'sweetalert2'
+
+
+$.ajaxSetup({
+    headers: {
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+    }
+});
+
+let originalData = {};
+// Save initial values
+    $("#emp-form :input[name]").each(function () {
+        originalData[$(this).attr("name")] = $(this).val();
+    });
+
+
 
 $('#profile-upload-btn').on('click', function () {
     $('#profileInput').click();
@@ -282,6 +298,273 @@ $("#emp-form").on("submit", function () {
     }
 });
 
+
+
+
+// =============================================================================================
+// ==================================  Ajext Request code ======================================
+// =============================================================================================
+
+$("#registerForm").on("submit", function (e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    $.ajax({
+        url: "/register",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: function () {
+            Swal.fire({
+                title: "Processing...",
+                text: "Please wait",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+        },
+        success: function (res) {
+            Swal.fire({
+                title: "Success!",
+                text: res.message,
+                icon: "success"
+            }).then(() => {
+                window.location.href = "/login";  // profile page URL
+            });
+        },
+        error: function (xhr) {
+            Swal.close();
+
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+                let html = "";
+
+                $.each(errors, function (key, value) {
+                    html += value + "<br>";
+                });
+
+                Swal.fire({
+                    title: "Validation Errors",
+                    html: html,
+                    icon: "error"
+                });
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: "Something went wrong!",
+                    icon: "error"
+                });
+            }
+        }
+    });
+});
+
+
+
+// ------------ Login Aject ----------
+
+$("#loginForm").on("submit", function (e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    $.ajax({
+        url: "/empLogin",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+
+        beforeSend: function () {
+            Swal.fire({
+                title: "Checking...",
+                text: "Please wait",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+        },
+
+        success: function (res) {
+            Swal.fire({
+                icon: "success",
+                title: "Login Successful",
+                text: res.message,
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            setTimeout(() => {
+                window.location.href = res.redirect;
+            }, 1500);
+        },
+
+        error: function (xhr) {
+            Swal.close();
+
+            if (xhr.status === 422) {
+                let err = xhr.responseJSON;
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Login Failed",
+                    text: err.message
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Server Error",
+                    text: "Something went wrong."
+                });
+            }
+        }
+    });
+});
+
+
+
+// --------------------- Logout Aject Code -------------------
+
+$("#logoutBtn").on("click", function () {
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You will be logged out!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Logout",
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: "/logout",
+                type: "POST",
+                data: {},
+                success: function (res) {
+                    Swal.fire({
+                        title: "Logged Out",
+                        text: res.message,
+                        icon: "success",
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+
+                    setTimeout(() => {
+                        window.location.href = res.redirect;
+                    }, 1000);
+                },
+
+                error: function () {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Something went wrong.",
+                        icon: "error"
+                    });
+                }
+            });
+        }
+    });
+});
+
+
+
+
+// ------------------------ Profile Update Aject -----------------------
+
+
+
+$("#emp-form").on("submit", function (e) {
+    e.preventDefault();
+
+    let isChanged = false;
+
+    $("#emp-form :input[name]").each(function () {
+        let name = $(this).attr("name");
+        let currentValue = $(this).val();
+
+        if (originalData[name] != currentValue) {
+            isChanged = true;
+            return false; // break loop
+        }
+    });
+
+    if ($("#profileInput").val() !== "") {
+        isChanged = true;
+    }
+
+
+    if (!isChanged) {
+        Swal.fire({
+            icon: "info",
+            title: "Nothing to Update",
+            text: "You didn't change anything.",
+        });
+        return; // AJAX abort
+    }
+
+    // If changes found → AJAX call run karega
+    updateProfileAjax();
+});
+
+function updateProfileAjax() {
+    let formData = new FormData(document.getElementById("emp-form"));
+
+    $.ajax({
+        url: "/employee/update",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+
+        beforeSend: function () {
+            Swal.fire({
+                title: "Updating...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+        },
+
+        success: function (res) {
+            Swal.fire({
+                icon: "success",
+                title: res.message,
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            setTimeout(() => {
+                window.location.href = res.redirect;
+            }, 1500);
+        },
+
+        error: function (xhr) {
+            Swal.close();
+
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+                let list = "";
+
+                $.each(errors, function (key, value) {
+                    list += value + "<br>";
+                });
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Validation Error",
+                    html: list
+                });
+
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Server Error",
+                    text: "Something went wrong."
+                });
+            }
+        }
+    });
+}
 
 
 

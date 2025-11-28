@@ -4,11 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>signupPage</title>
     <link rel="stylesheet" href="{{asset('style.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
         @vite(['resources/js/app.js'])
 </head>
@@ -17,7 +21,7 @@
 
     <div class="container">
         <h2>Employee Registration Form</h2>
-        <form action="\register" method="POST" enctype="multipart/form-data">
+        <form id="registerForm" enctype="multipart/form-data">
             @csrf
             <div class="profile-section">
                 <div id="profile">

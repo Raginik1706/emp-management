@@ -23,7 +23,7 @@ Route::get('/admin-login',function()
     return view('admin');
 })->name('admin');
 
-Route::get('/logout', [Authentication::class , 'logout'])->name('logout');
+Route::post('/logout', [Authentication::class , 'logout'])->name('logout');
 
 Route::post('/employee/update', [Authentication::class, 'updateProfile'])->name('employee.update');
 

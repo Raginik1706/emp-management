@@ -119,7 +119,11 @@ class authentication extends Controller
          }
 
          DB::commit();
-         return redirect()->route('login');
+         // return redirect()->route('login');
+         return response()->json([
+            'status' => true,
+            'message' => 'Registration successful!',
+         ], 200);
 
       } catch (Exception $e) {
          DB::rollBack();
@@ -140,24 +144,50 @@ class authentication extends Controller
 
       $user = User::where('email', $request->email)->first();
 
+      // if (!$user) {
+      //    return back()->withErrors(['email' => 'invalid email']);
+      // }
+
       if (!$user) {
-         return back()->withErrors(['email' => 'invalid email']);
-      }
+        return response()->json([
+            'status' => false,
+            'field' => 'email',
+            'message' => 'Invalid email'
+        ], 422);
+    }
+
+      // if (!Hash::check($request->password, $user->password)) {
+      //    return back()->withErrors(['password' => 'invalid password']);
+      // }
 
       if (!Hash::check($request->password, $user->password)) {
-         return back()->withErrors(['password' => 'invalid password']);
-      }
+        return response()->json([
+            'status' => false,
+            'field' => 'password',
+            'message' => 'Invalid password'
+        ], 422);
+     }
 
       session([
          'userid' => $user->id,
          'name' => $user->name
       ]);
 
-      if ($user->userType == 0) {
-         return redirect()->route('admin_dashboard');
-      } else {
-         return redirect()->route('profile');
-      }
+      // if ($user->userType == 0) {
+      //    return redirect()->route('admin_dashboard');
+      // } else {
+      //    return redirect()->route('profile');
+      // }
+
+      // Decide redirect page
+      $redirect = ($user->userType == 0) ? route('admin_dashboard') : route('profile');
+
+
+      return response()->json([
+        'status' => true,
+        'message' => 'Login successful',
+        'redirect' => $redirect
+      ], 200);
    }
 
 
@@ -187,11 +217,34 @@ class authentication extends Controller
 
 
    // logout
+   // public function logout()
+   // {
+   //    session()->flush();
+   //    return redirect('/login');
+   // }
+
    public function logout()
    {
-      session()->flush();
-      return redirect('/login');
+      try {
+         session()->flush();
+
+         return response()->json([
+               'status' => true,
+               'message' => 'Logged out successfully',
+               'redirect' => '/login'
+         ], 200);
+
+      } catch (\Exception $e) {
+
+         return response()->json([
+               'status' => false,
+               'message' => 'Server error occurred.',
+               'error' => $e->getMessage()
+         ], 500);
+      }
    }
+
+
 
 
 public function adminDashboard()
@@ -350,7 +403,13 @@ public function updateProfile(Request $request)
 
         DB::commit();
         Log::info("Profile Updated Success full");
-        return redirect()->route('profile')->with('success', 'Profile updated successfully!');
+      //   return redirect()->route('profile')->with('success', 'Profile updated successfully!');
+
+      return response()->json([
+         'status' => true,
+         'message' => 'Profile updated successfully',
+         'redirect' => route('profile')
+      ], 200);
 
 
     } catch (Exception $e) {
@@ -358,7 +417,11 @@ public function updateProfile(Request $request)
         Log::error("Update-Failed",[
           'error'=>$e->getMessage()
         ]);
-        return back()->withErrors(['error' => $e->getMessage()]);
+        return response()->json([
+            'status' => false,
+            'message' => 'Server Error',
+            'error' => $e->getMessage()
+        ], 500);
     }
 }
 

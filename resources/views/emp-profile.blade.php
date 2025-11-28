@@ -4,18 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Employee-Profile</title>
     <link rel="stylesheet" href="{{ asset('style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
   @vite(['resources/js/app.js'])
 
 
 </head>
 
-<body>
-    <form class="container emp-container" action="{{route('employee.update')}}" method="POST" enctype="multipart/form-data" id="emp-form">
+<body style="display: flex; flex-direction:column">
+    <div style="display: flex; gap:5px; align-items:center; width:100%; justify-content:end; padding:40px 100px">
+       <button id="logoutBtn" style="border:2px dotted red; paddin:5px; background:rgb(255, 255, 255); cursor:pointer; width:100px; height:35px; color:red">
+            Logout
+        </button>
+    </div>
+    <form class="container emp-container" enctype="multipart/form-data" id="emp-form">
         @csrf
         <h2>Employee Profile</h2>
         <div class="profile-section">
